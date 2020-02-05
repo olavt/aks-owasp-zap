@@ -57,3 +57,35 @@ If you re-run the process, you may need to add the --overwrite-existing option.
 ```
 $ kubectl get nodes
 ```
+
+## Create a Kubernetes .yaml file for running OWASP ZAP as a CronJOb
+
+Create a file names owasp-zap-cronjob.yaml with the following content:
+
+```
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: owasp-zap
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: owasp-zap
+            image: owasp/zap2docker-weekly
+            command: ["/bin/sh", "-c"]
+            args: ["quick-scan -sc -o '-config api.disablekey=true' -s xss,sqli http://Your Url"]
+          restartPolicy: Never
+```
+
+This defines a CronJob to run run a scan every 5 minutes.
+
+Deploy the CronJob to the Kubernetes cluster:
+
+```
+$ kubectl apply -f owasp-zap-cronjob.yaml
+```
+

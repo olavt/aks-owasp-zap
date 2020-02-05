@@ -1,0 +1,16 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: owasp-zap
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: owasp-zap
+            image: owasp/zap2docker-weekly
+            command: ["/bin/sh", "-c"]
+            args: ["quick-scan -sc -o '-config api.disablekey=true' -s xss,sqli http://Your Url"]
+          restartPolicy: Never
