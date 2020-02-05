@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: owasp-zap
+  labels:
+    app: owasp-zap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: owasp-zap
+  template:
+    metadata:
+      labels:
+        app: owasp-zap
+    spec:
+      containers:
+      - name: owasp-zap
+        image: owasp/zap2docker-stable
+        args:
+            - zap-cli
+            - --verbose
+            - quick-scan
+            - --self-contained
+            - --start-options '-config api.disablekey=true'
+            - --spider
+            - -s xss,sqli
+            - -r http://olavtweather.azurewebsites.net/weather
+      restartPolicy: Never
