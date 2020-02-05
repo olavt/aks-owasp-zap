@@ -33,7 +33,7 @@ $ az group create --name OWASPZap --location westeurope
 ## Create an AKS cluster
 
 ```
-$ az aks create --resource-group OWASPZap --name OWASPZapCluster --node-count 1 --node-vm-size Standard_B2s --generate-ssh-keys --kubernetes-version 1.14.6
+$ az aks create --resource-group OWASPZap --name OWASPZapCluster --node-count 1 --node-vm-size Standard_B2s --generate-ssh-keys --kubernetes-version 1.15.7
 ```
 
 The above command will create a 1-node cluster using the VM-size "Standard_B2s". To see what VM-sizes are available in a given location issue the following command:
