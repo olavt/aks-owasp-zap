@@ -30,10 +30,34 @@ $ az account set --subscription "<Subscription Id>"
 $ az group create --name OWASPZap --location westeurope
 ```
 
+### Create a Virtual Network
+
+```
+$ az network vnet create -g OWASPZap -n ZapNetwork --address-prefix 10.0.0.0/16 \
+    --subnet-name aks --subnet-prefix 10.0.0.0/24
+```
+
+### Get subnet ID for aks
+
+```
+$ az network vnet subnet list \
+    --resource-group OWASPZap \
+    --vnet-name ZapNetwork \
+    --output tsv
+```
+
 ## Create an AKS cluster
 
 ```
-$ az aks create --resource-group OWASPZap --name OWASPZapCluster --node-count 1 --node-vm-size Standard_B2s --generate-ssh-keys --kubernetes-version 1.15.7
+$ az aks create \
+--resource-group OWASPZap \
+--name OWASPZapCluster \
+--node-count 1 \
+--node-vm-size Standard_B2s \
+--network-plugin azure \
+--vnet-subnet-id <subnet-id> \
+--generate-ssh-keys \
+--kubernetes-version 1.15.7
 ```
 
 The above command will create a 1-node cluster using the VM-size "Standard_B2s". To see what VM-sizes are available in a given location issue the following command:
