@@ -42,8 +42,7 @@ $ az network vnet create -g OWASPZap -n ZapNetwork --address-prefix 10.0.0.0/16 
 ```
 $ az network vnet subnet list \
     --resource-group OWASPZap \
-    --vnet-name ZapNetwork \
-    --output tsv
+    --vnet-name ZapNetwork
 ```
 
 ## Create an AKS cluster
